@@ -1,13 +1,12 @@
+// Setting up ramps for clock
+const ramp=[5,12,12];
+const ramps = (new Array(ramp.length)).fill(null).map(n => []);
 
 function ballClock(numBalls) {
-  const ramp=[5,12,12];
-  // This variable sets up the ramps for the clock
-  const ramps = (new Array(ramp.length)).fill(null).map(n => []);
-
 // Giving the balls "numBalls" a unique number for tracking
-  var available = (new Array(numBalls).fill(null)).map((n, i) => i);
+  let available = (new Array(numBalls).fill(null)).map((n, i) => i);
 // build the ramps and adding the balls
-  function addToRamp(rampIndex, ball) {
+  const addToRamp=(rampIndex, ball)=> {
     if (ramps[rampIndex].length == ramp[rampIndex] - 1) {
       available.unshift.apply(available, ramps[rampIndex]);
       ramps[rampIndex].length = 0;
@@ -20,10 +19,9 @@ function ballClock(numBalls) {
     } else {
       ramps[rampIndex].push(ball);
     }
-
   }
 
-  // discover transformation: keep adding to ramp until all balls back to available tray
+// looping over until all balls are back in available
   let loop= 0;
   do {
     addToRamp(0, available.pop());
@@ -47,19 +45,10 @@ function ballClock(numBalls) {
 }
 
 // ballState
-
-
-
 function ballClockState(numBalls, time) {
-  const ramp=[5,12,12];
-  // This variable sets up the ramps for the clock
-  const ramps = (new Array(ramp.length)).fill(null).map(n => []);
-// Giving the balls "numBalls" a unique number for tracking
   const ballArr=(new Array(numBalls).fill(null)).map((n, i) => i+1);
   const available = ballArr.reverse();
-
-// build the ramps and adding the balls
-  function addToRamp(rampIndex, ball) {
+  const addToRamp=(rampIndex, ball)=> {
     if (ramps[rampIndex].length == ramp[rampIndex] - 1) {
       available.unshift.apply(available, ramps[rampIndex]);
       ramps[rampIndex].length = 0;
@@ -73,16 +62,12 @@ function ballClockState(numBalls, time) {
       ramps[rampIndex].push(ball);
     }
   }
-
-  // discover transformation: keep adding to ramp until all balls back to available tray
+  // discover transformation: keep adding to ramp time limit is reached.
   let loop = 0;
   do {
     addToRamp(0, available.pop());
     loop++;
   } while (loop != time);
-
   const ballState={"Min":ramps[0],"FiveMin":ramps[1],"Hour":ramps[2],"Main":available};
-
   return ballState
 }
- 
